@@ -22,6 +22,17 @@
                 <p>user not logged | <a href="{{ url_for('login') }}">login</a></p>
             </div>
         {% endif %}
+
+        <!-- flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     </header>
     <section>
         {% block content %}{% endblock %}

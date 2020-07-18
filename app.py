@@ -4,7 +4,7 @@
 #                                              v 1.0
 # -------------------------------------------------------------------------------------------------
 
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session
 import data
 import user
 
@@ -32,15 +32,18 @@ def login():
     password = request.form['password']
 
     if not user.valid_login(username, password):
+        flash('Invalid username or password!')
         return redirect('/login')
 
     session['username'] = username
+    flash('You were successfully logged in!')
     return redirect('/')
 
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    flash('You were successfully logged out!')
     return redirect('/')
 
 
