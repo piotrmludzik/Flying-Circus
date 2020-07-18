@@ -37,6 +37,7 @@ def login():
 
     session['username'] = username
     flash('You were successfully logged in!')
+
     return redirect('/')
 
 
@@ -44,6 +45,7 @@ def login():
 def logout():
     session.pop('username', None)
     flash('You were successfully logged out!')
+
     return redirect('/')
 
 

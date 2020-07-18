@@ -4,6 +4,7 @@
 #                                              v 1.0
 # -------------------------------------------------------------------------------------------------
 
+# from flask import session
 import const as c
 
 
@@ -15,5 +16,9 @@ users = {
 
 # ---------------------------------- login and logout functions -----------------------------------
 
+# def user_logged(username: str) -> bool:
+#     return True if username in session else False
+#
+#
 def valid_login(username: str, password: str) -> bool:
     return True if username in users and users[username] == password else False
