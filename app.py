@@ -4,7 +4,7 @@
 #                                              v 1.0
 # -------------------------------------------------------------------------------------------------
 
-from flask import Flask
+from flask import Flask, redirect, render_template, request
 import data
 
 app = Flask(__name__)
@@ -14,7 +14,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'Flying circus'
+    return render_template('index.html')
+
+
+# ------------------------------------------ else routes -------------------------------------------
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    # 'POST'
+    return redirect('/')
 
 
 # ------------------------------------------- main code -------------------------------------------
