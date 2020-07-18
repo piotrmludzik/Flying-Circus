@@ -5,7 +5,7 @@
 {% block content %}
     <div>
         <p>Enter data to login:</p>
-        <form action="{{ url_for('login') }}" method="POST">
+        <form action="{{ url_for('login_data_process') }}" method="POST">
             <label for="username">e-mail</label>
                 <input name="username" id="username" type="email" required>
             <label for="password">password</label>

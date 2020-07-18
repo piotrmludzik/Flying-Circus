@@ -22,12 +22,16 @@ def index():
 
 # ------------------------------------- login, logout routes --------------------------------------
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
-    if request.method == 'GET':
-        return render_template('login.html')
+    if user.user_logged():
+        return redirect('/')
 
-    # 'POST': login a user
+    return render_template('login.html')
+
+
+@app.route('/login', methods=['POST'])
+def login_data_process():
     username = request.form['username']
     password = request.form['password']
 
@@ -42,9 +46,10 @@ def login():
 
 
 @app.route('/logout')
-def logout():
-    session.pop('username', None)
-    flash('You were successfully logged out!')
+def logout_data_process():
+    if user.user_logged():
+        session.pop('username', None)
+        flash('You were successfully logged out!')
 
     return redirect('/')
 

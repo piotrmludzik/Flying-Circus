@@ -13,7 +13,7 @@
         <!-- logged -->
         {% if 'username' in session %}
             <div>
-                <p>user: {{ session['username'] }} | <a href="{{ url_for('logout') }}">logout</a></p>
+                <p>user: {{ session['username'] }} | <a href="{{ url_for('logout_data_process') }}">logout</a></p>
             </div>
 
         <!-- not logged in -->
