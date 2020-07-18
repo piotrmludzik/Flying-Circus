@@ -3,7 +3,16 @@
 {% block page_title %}Main page{% endblock %}
 
 {% block content %}
-    <div>
-        <p>Welcome in english learning application!</p>
-    </div>
+    <!-- logged -->
+    {% if 'username' in session %}
+        <div>
+            <p>You can do some english test on <a href="{{ url_for('test') }}">Test page</a></p>
+        </div>
+
+    <!-- not logged in -->
+    {% else %}
+        <div>
+            <p>Welcome in english learning application!</p>
+        </div>
+    {% endif %}
 {% endblock %}

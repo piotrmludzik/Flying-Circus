@@ -4,10 +4,13 @@
 #                                              v 1.0
 # -------------------------------------------------------------------------------------------------
 
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, session
 import data
+import user
+
 
 app = Flask(__name__)
+app.secret_key = b'%f4H&sT59hk!D76*'
 
 
 # ------------------------------------------ main route -------------------------------------------
@@ -17,15 +20,35 @@ def index():
     return render_template('index.html')
 
 
-# ------------------------------------------ else routes -------------------------------------------
+# ------------------------------------- login, logout routes --------------------------------------
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
 
-    # 'POST'
+    # 'POST': login a user
+    username = request.form['username']
+    password = request.form['password']
+
+    if not user.valid_login(username, password):
+        return redirect('/login')
+
+    session['username'] = username
     return redirect('/')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect('/')
+
+
+# ------------------------------------------ test route -------------------------------------------
+
+@app.route('/test')
+def test():
+    return 'test page'
 
 
 # ------------------------------------------- main code -------------------------------------------
@@ -33,6 +56,6 @@ def login():
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
-        port=7000,
+        port=5000,
         debug=True
     )

@@ -7,8 +7,21 @@
 <body>
 <div>
     <header>
-        <h1>Flying circus</h1>
-        <h2>{{ self.page_title() }}</h2>
+        <div>
+            <h1>Flying circus | {{ self.page_title() }}</h1>
+        </div>
+        <!-- logged -->
+        {% if 'username' in session %}
+            <div>
+                <p>user: {{ session['username'] }} | <a href="{{ url_for('logout') }}">logout</a></p>
+            </div>
+
+        <!-- not logged in -->
+        {% else %}
+            <div>
+                <p>user not logged | <a href="{{ url_for('login') }}">login</a></p>
+            </div>
+        {% endif %}
     </header>
     <section>
         {% block content %}{% endblock %}

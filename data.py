@@ -1,18 +1,11 @@
 # -------------------------------------------------------------------------------------------------
 #                                          Flying circus
-#                                          data manager
+#                                          program data
 #                                              v 1.0
 # -------------------------------------------------------------------------------------------------
 
 import const as c
 
-
-# ------------------------------------------- variables -------------------------------------------
-
-users = {
-    'john@doe.com': '$2b$12$/TYFvXOy9wDQUOn5SKgTzedwiqB6cm.UIfPewBnz0kUQeK9Eu4mSC',
-    'wally-e@pixar.com': ''
-}
 
 questions = {
     "I ______ bus on Mondays.": {
@@ -46,3 +39,6 @@ questions = {
         "d. do your sister work": False
     }
 }
+
+
+# ---------------------------------- english learning functions -----------------------------------
