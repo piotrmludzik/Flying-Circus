@@ -7,7 +7,7 @@
 import const as c
 
 
-questions = {
+exercises = {
     "I ______ bus on Mondays.": {
         "a. 'm going to work with": False,
         "b. 'm going to work by": False,
@@ -42,3 +42,27 @@ questions = {
 
 
 # ---------------------------------- english learning functions -----------------------------------
+
+def get_questions() -> list:
+    """ Prepares a list of randomly ordered questions. """
+    def get_questions_list() -> list:
+        """ Gets a list of questions form exercises dictionary. """
+        questions_list = []
+        for question in exercises.keys():
+            questions_list.append(question)
+
+        return questions_list
+
+    def get_random_questions(questions_list: list) -> list:
+        """ Generates the randomly ordered list of questions. """
+        import random
+
+        random_questions = []
+        while questions_list:
+            question = random.choice(questions_list)
+            random_questions.append(question)
+            questions_list.remove(question)
+
+        return random_questions
+
+    return get_random_questions(get_questions_list())

@@ -5,9 +5,9 @@
 # -------------------------------------------------------------------------------------------------
 
 from flask import Flask, flash, redirect, render_template, request, session
+import const as c
 import data
 import user
-
 
 app = Flask(__name__)
 app.secret_key = b'%f4H&sT59hk!D76*'
@@ -24,7 +24,7 @@ def index():
 
 @app.route('/login')
 def login():
-    if user.user_logged():
+    if user.is_logged():
         return redirect('/')
 
     return render_template('login.html')
@@ -47,7 +47,7 @@ def login_data_process():
 
 @app.route('/logout')
 def logout_data_process():
-    if user.user_logged():
+    if user.is_logged():
         session.pop('username', None)
         flash('You were successfully logged out!')
 
@@ -58,7 +58,23 @@ def logout_data_process():
 
 @app.route('/test')
 def test():
-    return 'test page'
+    if not user.is_logged():
+        return redirect('/')
+
+    if 'questions_list' not in session:
+        session['questions_list'] = data.get_questions()  # sets a random list of questions
+
+    # gets completly exercise of the first question from the questions list
+    question = session['questions_list'][c.FIRST_QUESTION]
+    session['question'] = question
+    session['answers'] = data.exercises[question]
+
+    return render_template('test.html')
+
+
+@app.route('/test', methods=['POST'])
+def test_data_process():
+    return 'it\'s!'
 
 
 # ------------------------------------------- main code -------------------------------------------

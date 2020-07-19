@@ -16,9 +16,11 @@ users = {
 
 # ---------------------------------- login and logout functions -----------------------------------
 
-def user_logged() -> bool:
+def is_logged() -> bool:
+    """ Checks if user is logged. """
     return True if 'username' in session else False
 
 
 def valid_login(username: str, password: str) -> bool:
+    """ Validates user and password: whether they exist in the database. """
     return True if username in users and users[username] == password else False
