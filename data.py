@@ -8,6 +8,7 @@ from flask import session
 import const as c
 
 
+# Exercises data: questions, answers and which is correct.
 exercises = {
     "I ______ bus on Mondays.": {
         "a. 'm going to work with": False,
@@ -44,7 +45,7 @@ exercises = {
 
 # ---------------------------------- english learning functions -----------------------------------
 
-def setup_exercises():
+def setup_test():
     """ Prepare test exercises. """
     def get_questions() -> list:
         """ Prepares a list of randomly ordered questions. """
@@ -72,35 +73,21 @@ def setup_exercises():
         return get_random_questions(get_questions_list())
 
     # ---------- setup_exercises() main code ----------
-    session[c.SV_QUESTION_LIST] = get_questions()
-    session[c.SV_QUESTION_MAX_NUMBER] = len(session[c.SV_QUESTION_LIST])
+    session[c.SV_QUESTIONS_ORDER] = get_questions()
     session[c.SV_ACTUAL_QUESTION_NUMBER] = 0
-    session[c.SV_USER_ANSWERS] = []
+    session[c.SV_TEST_DATA] = {}
 
 
-def get_next_exercise():
-    """ Gets a new exercise data. """
-    # question
-    actual_question = session[c.SV_QUESTION_LIST][session[c.SV_ACTUAL_QUESTION_NUMBER]]
-    session[c.SV_ACTUAL_QUESTION] = actual_question
-
-    # answers
-    session[c.SV_ACTUAL_ANSWERS] = list(exercises[actual_question].keys())
-
-
-def finish_exercise(user_answer: str):
+def exercise_finished(user_answer: str):
     """ Finishes the exercise (user clicked the submit button). """
-    # remembers the user answer
-    answers = session[c.SV_USER_ANSWERS]
-    answers.append(user_answer)
-    session[c.SV_USER_ANSWERS] = answers
+    question = session[c.SV_QUESTIONS_ORDER][session[c.SV_ACTUAL_QUESTION_NUMBER]]
+    session[c.SV_TEST_DATA][question] = user_answer
 
-    # increase the next question number
     session[c.SV_ACTUAL_QUESTION_NUMBER] += 1
 
 
-def get_correct_answers_number():
-    """ Gets the number of correct answers. """
-    correct_answers_number = 0
-    for question in session[c.SV_QUESTION_LIST]:
-        pass
+# def get_correct_answers_number():
+#     """ Gets the number of correct answers. """
+#     correct_answers_number = 0
+#     for question in session[c.SV_QUESTIONS_ORDER]:
+#         pass

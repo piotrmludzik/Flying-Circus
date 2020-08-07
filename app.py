@@ -61,20 +61,21 @@ def test():
     if not user.is_logged():
         return redirect('/')
 
-    # first run of test (first question)
-    if c.SV_QUESTION_LIST not in session:
-        data.setup_exercises()
+    # first run of test
+    if c.SV_QUESTIONS_ORDER not in session:
+        data.setup_test()
 
-    data.get_next_exercise()
-    return render_template('test.html')
+    question = session[c.SV_QUESTIONS_ORDER][session[c.SV_ACTUAL_QUESTION_NUMBER]]
+    answers = list(data.exercises[question].keys())
+    return render_template('test.html', question=question, answers=answers)
 
 
 @app.route('/test', methods=['POST'])
 def test_data_process():
-    data.finish_exercise(request.form['answer'])
+    data.exercise_finished(request.form['answer'])
 
-    # if the questions list is not empty goes to next question
-    if session[c.SV_ACTUAL_QUESTION_NUMBER] < session[c.SV_QUESTION_MAX_NUMBER]:
+    # goes on to the next question if it is not the last question
+    if session[c.SV_ACTUAL_QUESTION_NUMBER] < len(session[c.SV_QUESTIONS_ORDER]):
         return redirect('/test')
 
     return redirect('/result')
@@ -85,11 +86,12 @@ def test_result():
     if not user.is_logged():
         return redirect('/')
 
-    return render_template(
-        'result.html',
-        question_data=data.exercises,
-        correct_answers_number=data.get_correct_answers_number()
-    )
+    return "Finished!"
+    # return render_template(
+    #     'result.html',
+    #     question_data=data.exercises,
+    #     correct_answers_number=data.get_correct_answers_number()
+    # )
 
 
 # ------------------------------------------- main code -------------------------------------------

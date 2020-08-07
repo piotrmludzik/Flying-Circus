@@ -5,10 +5,10 @@
 {% block content %}
     <div>
         <p>Question:</p>
-        <p>{{ session['actual_question'] }}</p>
+        <p>{{ question }}</p>
         <p>Answers:</p>
         <form action="{{ url_for('test_data_process') }}" method="POST">
-            {% for answer in session['actual_answers'] %}
+            {% for answer in answers %}
                 <input type="radio" id="answer" name="answer" value="{{ answer }}" required><label for="answer"> {{ answer }} </label><br>
             {% endfor %}
             <input type="submit" value="Submit">
