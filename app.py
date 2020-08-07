@@ -49,6 +49,7 @@ def login_data_process():
 def logout_data_process():
     if user.is_logged():
         session.pop(c.SV_USERNAME, None)
+        data.close_test()
         flash('You were successfully logged out!')
 
     return redirect('/')
@@ -59,6 +60,7 @@ def logout_data_process():
 @app.route('/test')
 def test():
     if not user.is_logged():
+        flash('The user is not logged! ')
         return redirect('/')
 
     # first run of test
@@ -83,13 +85,21 @@ def test_data_process():
 
 @app.route('/result')
 def test_result():
-    if not user.is_logged():
+    if not user.is_logged() or c.SV_QUESTIONS_ORDER not in session:
+        flash('The user is not logged or the test has not been started. ')
         return redirect('/')
+
+    if session[c.SV_ACTUAL_QUESTION_NUMBER] < len(session[c.SV_QUESTIONS_ORDER]):
+        flash('The test has not been completed.')
+        return redirect('/test')
+
+    data.close_test()
 
     return render_template(
         'result.html',
         exercises_data=data.exercises,
-        test_data=session[c.SV_TEST_DATA]
+        test_data=session[c.SV_TEST_DATA],
+        correct_answers_number=data.get_correct_answers_number(session[c.SV_TEST_DATA])
     )
 
 

@@ -45,6 +45,30 @@ exercises = {
 
 # ---------------------------------- english learning functions -----------------------------------
 
+def close_test():
+    """ Releases some variables when the user finished the test. """
+    session.pop(c.SV_QUESTIONS_ORDER, None)
+    session.pop(c.SV_ACTUAL_QUESTION_NUMBER, None)
+
+
+def exercise_finished(user_answer: str):
+    """ Finishes the exercise (user clicked the submit button). """
+    question = session[c.SV_QUESTIONS_ORDER][session[c.SV_ACTUAL_QUESTION_NUMBER]]
+    session[c.SV_TEST_DATA][question] = user_answer
+
+    session[c.SV_ACTUAL_QUESTION_NUMBER] += 1
+
+
+def get_correct_answers_number(data_test: dict) -> int:
+    """ Gets the number of correct answers. """
+    correct_answers_number = 0
+    for question, answer in data_test.items():
+        if exercises[question][answer] is True:
+            correct_answers_number += 1
+
+    return correct_answers_number
+
+
 def setup_test():
     """ Prepare test exercises. """
     def get_questions() -> list:
@@ -76,18 +100,3 @@ def setup_test():
     session[c.SV_QUESTIONS_ORDER] = get_questions()
     session[c.SV_ACTUAL_QUESTION_NUMBER] = 0
     session[c.SV_TEST_DATA] = {}
-
-
-def exercise_finished(user_answer: str):
-    """ Finishes the exercise (user clicked the submit button). """
-    question = session[c.SV_QUESTIONS_ORDER][session[c.SV_ACTUAL_QUESTION_NUMBER]]
-    session[c.SV_TEST_DATA][question] = user_answer
-
-    session[c.SV_ACTUAL_QUESTION_NUMBER] += 1
-
-
-# def get_correct_answers_number():
-#     """ Gets the number of correct answers. """
-#     correct_answers_number = 0
-#     for question in session[c.SV_QUESTIONS_ORDER]:
-#         pass

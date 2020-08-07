@@ -3,10 +3,13 @@
 {% block page_title %}Test result{% endblock %}
 
 {% block content %}
+    <p>Right answered question: {{ correct_answers_number }}</p>
+    <p>Details of the answer:</p>
     <div>
+        {% set ns = namespace(question_number=0) %}
         {% for question in test_data %}
-            {% set question_number = session['questions_order'].index(question) + 1 %}
-            <p>{{ question_number }}: {{ question }}</p>
+            {% set ns.question_number = ns.question_number + 1 %}
+            <p>{{ ns.question_number }}: {{ question }}</p>
             <div>
                 {% for answer, value in exercises_data[question].items() %}
                     {% if value == True %}  <!-- right answer -->
@@ -19,9 +22,6 @@
                 {% endfor %}
             </div>
         {% endfor %}
-    </div>
-    <div>
-        <p>Right answered question: {{ correct_answers_number }}</p>
     </div>
     <footer>
         <p><a href="{{ url_for('index') }}">Main Page</a></p>
