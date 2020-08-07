@@ -39,7 +39,7 @@ def login_data_process():
         flash('Invalid username or password!')
         return redirect('/login')
 
-    session['username'] = username
+    session[c.SV_USERNAME] = username
     flash('You were successfully logged in!')
 
     return redirect('/')
@@ -48,7 +48,7 @@ def login_data_process():
 @app.route('/logout')
 def logout_data_process():
     if user.is_logged():
-        session.pop('username', None)
+        session.pop(c.SV_USERNAME, None)
         flash('You were successfully logged out!')
 
     return redirect('/')
@@ -62,7 +62,7 @@ def test():
         return redirect('/')
 
     # first run of test (first question)
-    if 'questions_list' not in session:
+    if c.SV_QUESTION_LIST not in session:
         data.setup_exercises()
 
     data.get_next_exercise()
@@ -74,7 +74,7 @@ def test_data_process():
     data.finish_exercise(request.form['answer'])
 
     # if the questions list is not empty goes to next question
-    if session['actual_question_number'] < session['questions_max_number']:
+    if session[c.SV_ACTUAL_QUESTION_NUMBER] < session[c.SV_QUESTION_MAX_NUMBER]:
         return redirect('/test')
 
     return redirect('/result')
@@ -88,7 +88,7 @@ def test_result():
     return render_template(
         'result.html',
         question_data=data.exercises,
-        correct_answers_number = data.get_correct_answers_number()
+        correct_answers_number=data.get_correct_answers_number()
     )
 
 

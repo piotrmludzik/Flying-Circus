@@ -72,35 +72,35 @@ def setup_exercises():
         return get_random_questions(get_questions_list())
 
     # ---------- setup_exercises() main code ----------
-    session['questions_list'] = get_questions()
-    session['questions_max_number'] = len(session['questions_list'])
-    session['actual_question_number'] = 0
-    session['user_answers'] = []
+    session[c.SV_QUESTION_LIST] = get_questions()
+    session[c.SV_QUESTION_MAX_NUMBER] = len(session[c.SV_QUESTION_LIST])
+    session[c.SV_ACTUAL_QUESTION_NUMBER] = 0
+    session[c.SV_USER_ANSWERS] = []
 
 
 def get_next_exercise():
     """ Gets a new exercise data. """
     # question
-    actual_question = session['questions_list'][session['actual_question_number']]
-    session['actual_question'] = actual_question
+    actual_question = session[c.SV_QUESTION_LIST][session[c.SV_ACTUAL_QUESTION_NUMBER]]
+    session[c.SV_ACTUAL_QUESTION] = actual_question
 
     # answers
-    session['actual_answers'] = list(exercises[actual_question].keys())
+    session[c.SV_ACTUAL_ANSWERS] = list(exercises[actual_question].keys())
 
 
 def finish_exercise(user_answer: str):
     """ Finishes the exercise (user clicked the submit button). """
     # remembers the user answer
-    answers = session['user_answers']
+    answers = session[c.SV_USER_ANSWERS]
     answers.append(user_answer)
-    session['user_answers'] = answers
+    session[c.SV_USER_ANSWERS] = answers
 
     # increase the next question number
-    session['actual_question_number'] += 1
+    session[c.SV_ACTUAL_QUESTION_NUMBER] += 1
 
 
 def get_correct_answers_number():
     """ Gets the number of correct answers. """
     correct_answers_number = 0
-    for question in session['questions_list']:
+    for question in session[c.SV_QUESTION_LIST]:
         pass

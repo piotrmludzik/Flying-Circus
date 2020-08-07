@@ -18,7 +18,7 @@ users = {
 
 def is_logged() -> bool:
     """ Checks if user is logged. """
-    return True if 'username' in session else False
+    return True if c.SV_USERNAME in session else False
 
 
 def valid_login(username: str, password: str) -> bool:
