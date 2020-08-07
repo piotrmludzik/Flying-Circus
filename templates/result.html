@@ -4,21 +4,20 @@
 
 {% block content %}
     <div>
-        {% set ns = namespace(question_number=0) %}
-        {% for question in session['questions_list'] %}
-            <p>{{ session['questions_list'].index(question) + 1 }}: {{ question }}</p>
+        {% for question in test_data %}
+            {% set question_number = session['questions_order'].index(question) + 1 %}
+            <p>{{ question_number }}: {{ question }}</p>
             <div>
-                {% for answer in question_data[question] %}
-                    {% if question_data[question][answer] == True %} <!-- right answer -->
+                {% for answer, value in exercises_data[question].items() %}
+                    {% if value == True %}  <!-- right answer -->
                         <p><b>{{ answer }}</b></p>
-                    {% elif answer == session['user_answers'][ns.question_number] %}  <!-- user answer -->
+                    {% elif answer == test_data[question] %}  <!-- user answer -->
                         <p><s>{{ answer }}</s></p>
                     {% else %}  <!-- else answers -->
                         <p>{{ answer }}</p>
                     {% endif %}
                 {% endfor %}
             </div>
-            {% set ns.question_number = ns.question_number + 1 %}
         {% endfor %}
     </div>
     <div>

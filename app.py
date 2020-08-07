@@ -86,12 +86,11 @@ def test_result():
     if not user.is_logged():
         return redirect('/')
 
-    return "Finished!"
-    # return render_template(
-    #     'result.html',
-    #     question_data=data.exercises,
-    #     correct_answers_number=data.get_correct_answers_number()
-    # )
+    return render_template(
+        'result.html',
+        exercises_data=data.exercises,
+        test_data=session[c.SV_TEST_DATA]
+    )
 
 
 # ------------------------------------------- main code -------------------------------------------
