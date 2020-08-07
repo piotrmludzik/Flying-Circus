@@ -74,10 +74,22 @@ def test_data_process():
     data.finish_exercise(request.form['answer'])
 
     # if the questions list is not empty goes to next question
-    if session['questions_list']:
+    if session['actual_question_number'] < session['questions_max_number']:
         return redirect('/test')
 
-    return ", ".join(session['user_answers'])
+    return redirect('/result')
+
+
+@app.route('/result')
+def test_result():
+    if not user.is_logged():
+        return redirect('/')
+
+    return render_template(
+        'result.html',
+        question_data=data.exercises,
+        correct_answers_number = data.get_correct_answers_number()
+    )
 
 
 # ------------------------------------------- main code -------------------------------------------

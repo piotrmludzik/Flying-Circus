@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Test result{% endblock %}
+
+{% block content %}
+    <div>
+        {% set ns = namespace(question_number=0) %}
+        {% for question in session['questions_list'] %}
+            <p>{{ session['questions_list'].index(question) + 1 }}: {{ question }}</p>
+            <div>
+                {% for answer in question_data[question] %}
+                    {% if question_data[question][answer] == True %} <!-- right answer -->
+                        <p><b>{{ answer }}</b></p>
+                    {% elif answer == session['user_answers'][ns.question_number] %}  <!-- user answer -->
+                        <p><s>{{ answer }}</s></p>
+                    {% else %}  <!-- else answers -->
+                        <p>{{ answer }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% set ns.question_number = ns.question_number + 1 %}
+        {% endfor %}
+    </div>
+    <div>
+        <p>Right answered question: {{ correct_answers_number }}</p>
+    </div>
+    <footer>
+        <p><a href="{{ url_for('index') }}">Main Page</a></p>
+    </footer>
+{% endblock %}

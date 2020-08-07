@@ -73,22 +73,34 @@ def setup_exercises():
 
     # ---------- setup_exercises() main code ----------
     session['questions_list'] = get_questions()
+    session['questions_max_number'] = len(session['questions_list'])
+    session['actual_question_number'] = 0
     session['user_answers'] = []
 
 
 def get_next_exercise():
     """ Gets a new exercise data. """
-    # gets the new question and deletes it from the questions list """
-    question = session['questions_list'][c.FIRST_QUESTION]
-    session['actual_question'] = question
-    session['questions_list'].pop(c.FIRST_QUESTION)
+    # question
+    actual_question = session['questions_list'][session['actual_question_number']]
+    session['actual_question'] = actual_question
 
-    # gets new question answers
-    session['actual_answers'] = list(exercises[question].keys())  # gets answers to new question
+    # answers
+    session['actual_answers'] = list(exercises[actual_question].keys())
 
 
 def finish_exercise(user_answer: str):
     """ Finishes the exercise (user clicked the submit button). """
+    # remembers the user answer
     answers = session['user_answers']
     answers.append(user_answer)
-    session['user_answers'] = answers  # remembers the user answer
+    session['user_answers'] = answers
+
+    # increase the next question number
+    session['actual_question_number'] += 1
+
+
+def get_correct_answers_number():
+    """ Gets the number of correct answers. """
+    correct_answers_number = 0
+    for question in session['questions_list']:
+        pass
