@@ -61,20 +61,23 @@ def test():
     if not user.is_logged():
         return redirect('/')
 
+    # first run of test (first question)
     if 'questions_list' not in session:
-        session['questions_list'] = data.get_questions()  # sets a random list of questions
+        data.setup_exercises()
 
-    # gets completly exercise of the first question from the questions list
-    question = session['questions_list'][c.FIRST_QUESTION]
-    session['question'] = question
-    session['answers'] = data.exercises[question]
-
+    data.get_next_exercise()
     return render_template('test.html')
 
 
 @app.route('/test', methods=['POST'])
 def test_data_process():
-    return 'it\'s!'
+    data.finish_exercise(request.form['answer'])
+
+    # if the questions list is not empty goes to next question
+    if session['questions_list']:
+        return redirect('/test')
+
+    return ", ".join(session['user_answers'])
 
 
 # ------------------------------------------- main code -------------------------------------------

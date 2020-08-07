@@ -1,9 +1,10 @@
 # -------------------------------------------------------------------------------------------------
 #                                          Flying circus
-#                                          program data
+#                                      program data functions
 #                                              v 1.0
 # -------------------------------------------------------------------------------------------------
 
+from flask import session
 import const as c
 
 
@@ -43,26 +44,51 @@ exercises = {
 
 # ---------------------------------- english learning functions -----------------------------------
 
-def get_questions() -> list:
-    """ Prepares a list of randomly ordered questions. """
-    def get_questions_list() -> list:
-        """ Gets a list of questions form exercises dictionary. """
-        questions_list = []
-        for question in exercises.keys():
-            questions_list.append(question)
+def setup_exercises():
+    """ Prepare test exercises. """
+    def get_questions() -> list:
+        """ Prepares a list of randomly ordered questions. """
+        def get_questions_list() -> list:
+            """ Gets a list of questions form exercises dictionary. """
+            questions_list = []
+            for question in exercises.keys():
+                questions_list.append(question)
 
-        return questions_list
+            return questions_list
 
-    def get_random_questions(questions_list: list) -> list:
-        """ Generates the randomly ordered list of questions. """
-        import random
+        def get_random_questions(questions_list: list) -> list:
+            """ Generates the randomly ordered list of questions. """
+            import random
 
-        random_questions = []
-        while questions_list:
-            question = random.choice(questions_list)
-            random_questions.append(question)
-            questions_list.remove(question)
+            random_questions_list = []
+            while questions_list:
+                question = random.choice(questions_list)
+                random_questions_list.append(question)
+                questions_list.remove(question)
 
-        return random_questions
+            return random_questions_list
 
-    return get_random_questions(get_questions_list())
+        # ---------- get_questions() main code ----------
+        return get_random_questions(get_questions_list())
+
+    # ---------- setup_exercises() main code ----------
+    session['questions_list'] = get_questions()
+    session['user_answers'] = []
+
+
+def get_next_exercise():
+    """ Gets a new exercise data. """
+    # gets the new question and deletes it from the questions list """
+    question = session['questions_list'][c.FIRST_QUESTION]
+    session['actual_question'] = question
+    session['questions_list'].pop(c.FIRST_QUESTION)
+
+    # gets new question answers
+    session['actual_answers'] = list(exercises[question].keys())  # gets answers to new question
+
+
+def finish_exercise(user_answer: str):
+    """ Finishes the exercise (user clicked the submit button). """
+    answers = session['user_answers']
+    answers.append(user_answer)
+    session['user_answers'] = answers  # remembers the user answer
