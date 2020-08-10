@@ -4,17 +4,19 @@
 
 {% block content %}
     <div>
-        <p>Question:</p>
-        <p>{{ question }}</p>
-        <p>Answers:</p>
+        <h3>Question:</h3>
+        {{ question }}
+        <h3>Answers:</h3>
         <form action="{{ url_for('test_data_process') }}" method="POST">
             {% for answer in answers %}
                 <input type="radio" id="answer" name="answer" value="{{ answer }}" required><label for="answer"> {{ answer }} </label><br>
             {% endfor %}
+            <br>
             <input type="submit" value="Submit">
         </form>
     </div>
-    <footer>
-        <p><a href="{{ url_for('index') }}">Main Page</a></p>
-    </footer>
+{% endblock %}
+
+{% block footer %}
+    <a href="{{ url_for('index') }}">Main Page</a>
 {% endblock %}

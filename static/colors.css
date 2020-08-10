@@ -1,0 +1,11 @@
+:root {
+    --color_font_header: #f8f8f8;
+    --color_font_content: #324e7b;
+    --color_font_footer: #f8f8f8;
+    --color_font_test_answer_good: #78aa3e;
+    --color_font_test_answer_bad: #fa4141;
+    --color_font_footer_message: #d7d7d7;
+    --color_background_header: #324e7b;
+    --color_background_content: #f8f8f8;
+    --color_background_footer: #86a6df;
+}

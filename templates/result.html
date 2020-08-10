@@ -3,19 +3,20 @@
 {% block page_title %}Test result{% endblock %}
 
 {% block content %}
-    <p>Right answered question: {{ correct_answers_number }}</p>
-    <p>Details of the answer:</p>
+    <h2>Results:</h2>
+    <p>right answered question: <strong>{{ correct_answers_number }}</strong></p>
+    <h2>Details of the answer:</h2>
     <div>
         {% set ns = namespace(question_number=0) %}
         {% for question in test_data %}
             {% set ns.question_number = ns.question_number + 1 %}
-            <p>{{ ns.question_number }}: {{ question }}</p>
+            <h3>{{ ns.question_number }}: {{ question }}</h3>
             <div>
                 {% for answer, value in exercises_data[question].items() %}
                     {% if value == True %}  <!-- right answer -->
-                        <p><b>{{ answer }}</b></p>
+                        <p class="test_answer_good">{{ answer }}</p>
                     {% elif answer == test_data[question] %}  <!-- user answer -->
-                        <p><s>{{ answer }}</s></p>
+                        <p class="test_answer_bad">{{ answer }}</p>
                     {% else %}  <!-- else answers -->
                         <p>{{ answer }}</p>
                     {% endif %}
@@ -23,7 +24,8 @@
             </div>
         {% endfor %}
     </div>
-    <footer>
-        <p><a href="{{ url_for('index') }}">Main Page</a></p>
-    </footer>
+{% endblock %}
+
+{% block footer %}
+    <a href="{{ url_for('index') }}">Main Page</a>
 {% endblock %}

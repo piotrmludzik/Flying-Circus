@@ -2,41 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='colors.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <title>{% block page_title %}{% endblock %} | Flying circus</title>
 </head>
 <body>
-<div>
-    <header>
-        <div>
-            <h1>Flying circus | {{ self.page_title() }}</h1>
-        </div>
-        <!-- logged -->
-        {% if 'username' in session %}
-            <div>
-                <p>user: {{ session['username'] }} | <a href="{{ url_for('logout_data_process') }}">logout</a></p>
+    <div class="main_grid">
+        <header class="header">
+            <!-- the app name and the page name -->
+            <div class="header_pagename">
+                <h1>Flying circus | {{ self.page_title() }}</h1>
             </div>
 
-        <!-- not logged in -->
-        {% else %}
-            <div>
-                <p>user not logged | <a href="{{ url_for('login') }}">login</a></p>
-            </div>
-        {% endif %}
+            <!-- the user login details --->
+            <div class="header_login">
+                <!-- logged -->
+                {% if 'username' in session %}
+                    user: {{ session['username'] }} | <a href="{{ url_for('logout_data_process') }}">logout</a>
 
-        <!-- flash messages -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div>
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-    </header>
-    <section>
-        {% block content %}{% endblock %}
-    </section>
-</div>
+                <!-- not logged in -->
+                {% else %}
+                    user not logged | <a href="{{ url_for('login') }}">login</a>
+                {% endif %}
+            </div>
+        </header>
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+        <footer class="footer">
+            <!-- navigation bar -->
+            <div class="footer_navbar">
+                {% block footer %}Main Page{% endblock %}
+            </div>
+
+            <!-- flash messages -->
+            <div class="footer_message">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </footer>
+    </div>
 </body>
 </html>

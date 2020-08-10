@@ -1,0 +1,85 @@
+/* -------------------------------------- main grid layout ------------------------------------- */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main_grid {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 3.5rem auto 2rem;
+    grid-template-areas:
+        "header"
+        "content"
+        "footer";
+    height: 100vh;
+}
+
+
+/* ------------------------------------------- header ------------------------------------------ */
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    color: var(--color_font_header);
+    background-color: var(--color_background_header);
+}
+
+.header_pagename {
+    flex: 60vw;
+    text-align: left;
+}
+
+.header_login {
+    flex: 30vw;
+    align-self: flex-start;
+    text-align: right;
+}
+
+
+/* ------------------------------------------ content ------------------------------------------ */
+
+.content {
+    grid-area: content;
+    color: var(--color_font_content);
+    background-color: var(--color_background_content);
+    padding: 1em 2em;
+}
+
+.test_answer_good {
+    color: var(--color_font_test_answer_good);
+}
+
+.test_answer_bad {
+    color: var(--color_font_test_answer_bad);
+}
+
+
+/* ------------------------------------------- footer ------------------------------------------ */
+
+.footer {
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    color: var(--color_font_footer);
+    background-color: var(--color_background_footer);
+}
+
+.footer_navbar {
+    flex: 10vw;
+}
+
+.footer_message {
+    flex: 90vw;
+    text-align: center;
+}
